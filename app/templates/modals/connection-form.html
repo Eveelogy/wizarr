@@ -109,11 +109,25 @@
               </div>
             {% endif %}
           </div>
+          {% if form.connection_type.data == "readmeabook" %}
+            <!-- ReadMeABook Info Section -->
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+              <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-2">{{ _("ReadMeABook Information") }}</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-300">
+                {{ _("ReadMeABook has no API key for managing users, so Wizarr signs in as a local admin. In Audiobookshelf mode, invited users get an account with the username and password they choose, approved automatically; turn on registration in ReadMeABook's authentication settings for this. In Plex mode, users sign in with Plex and no account is created.") }}
+              </p>
+            </div>
+            <!-- Admin Username -->
+            <div>
+              {{ form.admin_username.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.admin_username(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary", autocomplete="off") }}
+            </div>
+          {% endif %}
           <!-- API Key -->
           <div>
-            {{ form.api_key.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+            {{ form.api_key.label(text=_("Admin Password") if form.connection_type.data == "readmeabook" else None, class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
             <div class="relative">
-              {{ form.api_key(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 pr-10 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary", type="password", placeholder="Enter API key") }}
+              {{ form.api_key(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 pr-10 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary", type="password", placeholder=_("Enter admin password") if form.connection_type.data == "readmeabook" else "Enter API key") }}
               <button type="button"
                       class="absolute inset-y-0 right-0 pr-3 flex items-center"
                       onclick="togglePassword(this)">

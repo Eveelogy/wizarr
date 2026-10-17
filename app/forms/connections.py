@@ -13,6 +13,7 @@ class ConnectionForm(FlaskForm):
     name = StringField("Connection Name", validators=[DataRequired()])
     url = StringField("Service URL", validators=[Optional(), URL()])
     api_key = StringField("API Key", validators=[Optional()])
+    admin_username = StringField("Admin Username", validators=[Optional()])
     media_server_id = SelectField(
         "Media Server", coerce=int, validators=[DataRequired()]
     )
