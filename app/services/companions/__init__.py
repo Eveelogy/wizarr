@@ -2,12 +2,13 @@
 Companion app integration system.
 
 This module provides a modular system for integrating with companion apps
-like Ombi, Seerr, and Audiobookrequest. Each companion type has its own
+like Ombi, Seerr, Audiobookrequest and Homarr. Each companion type has its own
 client implementation following a common interface.
 """
 
 from .audiobookrequest import AudiobookrequestClient
 from .base import CompanionClient
+from .homarr import HomarrClient
 from .ombi import OmbiClient
 from .overseerr import OverseerrClient
 
@@ -45,6 +46,7 @@ def list_companion_types() -> list[tuple[str, str]]:
         ("ombi", "Ombi"),
         ("overseerr", "Seerr (Overseerr/Jellyseerr)"),
         ("audiobookrequest", "Audiobookrequest"),
+        ("homarr", "Homarr"),
     ]
 
 
@@ -52,3 +54,4 @@ def list_companion_types() -> list[tuple[str, str]]:
 register_companion_client("ombi")(OmbiClient)
 register_companion_client("overseerr")(OverseerrClient)
 register_companion_client("audiobookrequest")(AudiobookrequestClient)
+register_companion_client("homarr")(HomarrClient)

@@ -109,6 +109,15 @@
               </div>
             {% endif %}
           </div>
+          {% if form.connection_type.data == "homarr" %}
+            <!-- Homarr Info Section -->
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+              <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-2">{{ _("Homarr Information") }}</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-300">
+                {{ _("Wizarr creates a Homarr account with the username and password the invited user chooses, and deletes it when the user is removed. Create the API key in Homarr under Management, Tools, API while signed in as an admin; the key acts as that admin. Credentials sign-in must be enabled in Homarr (AUTH_PROVIDERS includes credentials).") }}
+              </p>
+            </div>
+          {% endif %}
           <!-- API Key -->
           <div>
             {{ form.api_key.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
