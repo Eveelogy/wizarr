@@ -8,6 +8,7 @@ Widgets are inserted into markdown content using special syntax:
 {{ widget:collection_media collection="My Collection" }}
 {{ widget:collection_media collection="My Collection" limit=15 }}
 {{ widget:button url="https://example.com" text="Click Here" }}
+{{ widget:discord_invite text="Join our Discord" }}
 
 Cards use delimiter syntax:
 |||
@@ -331,11 +332,56 @@ class ButtonWidget(WizardWidget):
             return '\n\n<div class="text-sm text-gray-500 italic">Button unavailable</div>\n\n'
 
 
+class DiscordInviteWidget(WizardWidget):
+    """Button that opens a single-use Discord invite made for this user.
+
+    The invite itself is created when the button is clicked, by the
+    wizard.discord_invite route, so rendering a step never uses one up.
+    """
+
+    def __init__(self):
+        super().__init__("discord_invite", "")
+
+    def render(self, server_type: str, _context: dict | None = None, **kwargs) -> str:  # noqa: ARG002
+        import html
+
+        from flask import url_for
+
+        from app.services.discord_invites import is_configured
+
+        try:
+            # Hide the button rather than show one that can only fail.
+            if not is_configured():
+                return ""
+
+            text = str(kwargs.get("text", "Join our Discord"))
+            if text.startswith("_("):
+                text = render_wizard_template(
+                    f"{{{{ {text} }}}}", wizard_context(_context or {})
+                )
+
+            escaped_text = html.escape(text)
+            escaped_url = html.escape(url_for("wizard.discord_invite"))
+            return f'''
+<div class="flex justify-center w-full my-6">
+<div class="inline-flex">
+    <a href="{escaped_url}" class="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary-hover focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary dark:focus:ring-primary-800 transition-colors duration-200" style="text-decoration: none;" target="_blank" rel="noopener noreferrer">
+        {escaped_text}
+    </a>
+</div>
+</div>
+'''
+        except Exception:
+            logging.debug("Cannot render Discord invite button.", exc_info=True)
+            return '\n\n<div class="text-sm text-gray-500 italic">Discord invite unavailable</div>\n\n'
+
+
 # Widget registry
 WIDGET_REGISTRY = {
     "recently_added_media": RecentlyAddedMediaWidget(),
     "collection_media": CollectionMediaWidget(),
     "button": ButtonWidget(),
+    "discord_invite": DiscordInviteWidget(),
 }
 
 

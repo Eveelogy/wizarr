@@ -80,6 +80,9 @@
           } else if (selectedPreset === 'overseerr_requests') {
               document.getElementById('overseerr-fields').style.display = 'block';
               document.getElementById('preset-desc-overseerr_requests').style.display = 'block';
+          } else {
+              const description = document.getElementById('preset-desc-' + selectedPreset);
+              if (description) description.style.display = 'block';
           }
       }
 

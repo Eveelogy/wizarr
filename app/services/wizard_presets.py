@@ -50,6 +50,27 @@ Discord is a free chat platform where our community hangs out. Join us to:
 </div>
 |||""",
     ),
+    "discord_invite": WizardPreset(
+        id="discord_invite",
+        name="Discord Invite (single-use)",
+        description=(
+            "Give each invited user their own one-time Discord invite. Needs a "
+            "bot token and invite channel under Settings → General."
+        ),
+        title="Discord",
+        template="""## 💬 Join Our Discord Community
+
+Stay connected with other users, get help, and share tips in our Discord server!
+
+|||
+### 🎟️ Your personal invite
+
+This invite link is just for you. It works once and expires after 24 hours, so please don't share it.
+
+|||
+
+{{{{ widget:discord_invite text="Join our Discord" }}}}""",
+    ),
     "overseerr_requests": WizardPreset(
         id="overseerr_requests",
         name="Seerr/Ombi Requests",

@@ -1,3 +1,4 @@
+import time
 from pathlib import Path
 from uuid import uuid4
 
@@ -901,6 +902,36 @@ def start():
 
     # Priority 3: No context available - show the help page
     return redirect(url_for("wizard.no_access"))
+
+
+@wizard_bp.route("/discord-invite")
+def discord_invite():
+    """Send the user to a single-use Discord invite of their own.
+
+    Created on click rather than when the step renders, so previews and page
+    refreshes do not use up invites. The link is kept in the session until it
+    expires, so clicking again reopens the same invite instead of making more.
+    """
+    from app.services.discord_invites import DiscordInviteError, create_invite
+
+    # Stricter than the wizard ACL: even with a public wizard, only someone who
+    # accepted an invitation (or an admin previewing) may create an invite.
+    access = session.get("wizard_access")
+    if not access and not current_user.is_authenticated:
+        return redirect(url_for("wizard.no_access"))
+
+    cached = session.get("discord_invite") or {}
+    if cached.get("for") == access and cached.get("expires", 0) > time.time() + 60:
+        return redirect(cached["url"])
+
+    try:
+        url, expires = create_invite()
+    except DiscordInviteError as exc:
+        current_app.logger.warning("Discord invite failed: %s", exc)
+        return render_template("wizard/discord_invite_error.html"), 502
+
+    session["discord_invite"] = {"for": access, "url": url, "expires": expires}
+    return redirect(url)
 
 
 @wizard_bp.route("/help")
