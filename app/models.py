@@ -398,6 +398,9 @@ class Connection(db.Model):
     name = db.Column(db.String, nullable=False)
     url = db.Column(db.String, nullable=True)  # Optional for info-only connections
     api_key = db.Column(db.String, nullable=True)  # Optional for info-only connections
+    # Services without a usable API key (ReadMeABook) sign in as an admin
+    # instead; api_key then holds that admin's password.
+    admin_username = db.Column(db.String, nullable=True)
     media_server_id = db.Column(
         db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=False
     )
