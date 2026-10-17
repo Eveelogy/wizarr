@@ -17,6 +17,10 @@ class GeneralSettingsForm(FlaskForm):
         default="delete",
         validators=[DataRequired()],
     )
+    discord_bot_token = StringField("Discord Bot Token", validators=[Optional()])
+    discord_invite_channel_id = StringField(
+        "Discord Invite Channel ID", validators=[Optional()]
+    )
     cinema_posters_source = SelectField(
         "Join Page Posters",
         choices=[],

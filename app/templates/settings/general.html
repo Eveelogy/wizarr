@@ -208,6 +208,43 @@
                 </div>
               </div>
             </div>
+            {# ───── Discord ──────────────────────────────────────── #}
+            <div class="space-y-4">
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                <div class="flex items-center gap-3">
+                  <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Discord") }}</h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                      {{ _("Give each invited user a single-use Discord invite through a wizard step") }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  {{ form.discord_bot_token.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                  {{ form.discord_bot_token(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", type="password", autocomplete="off") }}
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                    {{ _("From the Discord Developer Portal. Add the bot to your server with the Create Invite permission.") }}
+                  </p>
+                </div>
+                <div>
+                  {{ form.discord_invite_channel_id.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                  {{ form.discord_invite_channel_id(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", placeholder="123456789012345678") }}
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                    {{ _("The channel new members land in. Right-click it in Discord with Developer Mode on and choose Copy Channel ID.") }}
+                  </p>
+                </div>
+              </div>
+              <p class="text-xs text-gray-600 dark:text-gray-400">
+                {{ _("Then add the 'Discord Invite (single-use)' preset to your wizard, or put {{ widget:discord_invite }} in any step.") }}
+              </p>
+            </div>
             {# ───── API Key Management ─────────────────────────── #}
             <div class="space-y-4">
               <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
